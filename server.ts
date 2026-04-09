@@ -5,12 +5,11 @@ import path from "path";
 
 async function startServer() {
   const app = express();
-  const PORT = parseInt(process.env.PORT || "3000", 10);
+  const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json());
 
-  // Import utility here to avoid top-level process.env issues before dotenv
-  const { callAI } = await import("./src/lib/ai.js");
+  const { callAI } = await import("./src/lib/ai.ts");
 
   app.post("/api/ai/chat", async (req, res) => {
     try {
