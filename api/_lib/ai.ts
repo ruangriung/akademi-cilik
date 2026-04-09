@@ -21,12 +21,9 @@ export async function callAI(system: string, user: string, isJson = false) {
         { role: "user", content: user }
       ],
       model: "openai",
-      modalities: ["text"],
-      temperature: 1,
+      temperature: 0.7,
       seed: 42,
-      response_format: { type: isJson ? "json_object" : "text" },
-      thinking: { type: "disabled", budget_tokens: 1 },
-      reasoning_effort: "none"
+      response_format: { type: isJson ? "json_object" : "text" }
     })
   });
 
