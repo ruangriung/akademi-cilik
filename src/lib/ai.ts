@@ -12,14 +12,21 @@ export async function callAI(system: string, user: string, isJson = false) {
       "Authorization": `Bearer ${API_KEY}`
     },
     body: JSON.stringify({
-      model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: system },
+        { 
+          role: "system", 
+          content: system,
+          cache_control: { type: "ephemeral" }
+        },
         { role: "user", content: user }
       ],
-      response_format: isJson ? { type: "json_object" } : undefined,
-      temperature: 0.7,
-      seed: 42
+      model: "openai",
+      modalities: ["text"],
+      temperature: 1,
+      seed: 42,
+      response_format: { type: isJson ? "json_object" : "text" },
+      thinking: { type: "disabled", budget_tokens: 1 },
+      reasoning_effort: "none"
     })
   });
 
