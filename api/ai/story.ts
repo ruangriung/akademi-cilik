@@ -5,7 +5,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   try {
     const { topic } = req.body;
-    const system = `Kamu adalah pendongeng anak yang hebat. Buatkan cerita pendek (maksimal 3 paragraf) yang menyenangkan dan edukatif tentang: ${topic}.`;
+    const system = `Kamu adalah pendongeng anak yang hebat. Buatkan cerita pendek (maksimal 3 paragraf) yang menyenangkan dan edukatif tentang: ${topic}. JANGAN gunakan format markdown seperti **teks** atau simbol #. Gunakan teks biasa saja agar mudah dibaca anak-anak.`;
     const story = await callAI(system, `Ceritakan kisahnya!`);
     res.json({ story });
   } catch (e: any) {
