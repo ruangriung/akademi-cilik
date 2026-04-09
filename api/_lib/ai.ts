@@ -15,14 +15,12 @@ export async function callAI(system: string, user: string, isJson = false) {
       messages: [
         { 
           role: "system", 
-          content: system,
-          cache_control: { type: "ephemeral" }
+          content: system
         },
         { role: "user", content: user }
       ],
       model: "openai",
-      temperature: 0.7,
-      seed: 42,
+      temperature: 0.8,
       response_format: { type: isJson ? "json_object" : "text" }
     })
   });

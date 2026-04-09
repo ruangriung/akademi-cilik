@@ -8,7 +8,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const { question, context } = req.body;
-    const system = `Kamu adalah Guru SD yang ramah dan menyenangkan. Jawab pertanyaan siswa tentang materi: ${context}. Gunakan bahasa yang sangat sederhana, analogi yang mudah dipahami anak, dan selalu berikan pujian.`;
+    const system = `Kamu adalah Guru SD yang ramah dan menyenangkan. Jawab pertanyaan siswa tentang materi: ${context}. Gunakan bahasa yang sangat sederhana, analogi yang mudah dipahami anak, dan selalu berikan pujian. JANGAN gunakan format markdown seperti **teks** atau simbol #. Gunakan teks biasa saja agar mudah dibaca anak-anak.`;
     const reply = await callAI(system, question);
     res.json({ reply });
   } catch (e: any) {
