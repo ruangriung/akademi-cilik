@@ -5,7 +5,7 @@ export async function callAI(system: string, user: string, isJson = false) {
     throw new Error("API Key is missing. Please set POLLINATIONS_API_KEY.");
   }
 
-  const response = await fetch("https://text.pollinations.ai/openai/v1/chat/completions", {
+  const response = await fetch("https://gen.pollinations.ai/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
