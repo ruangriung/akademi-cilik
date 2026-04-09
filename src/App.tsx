@@ -11,13 +11,14 @@ import { indonesianModules, indonesianQuizQuestions } from './indonesianData';
 import { englishModules, englishQuizQuestions } from './englishData';
 import { tajwidModules, tajwidQuizQuestions } from './tajwidData';
 import { computerModules, computerQuizQuestions } from './computerData';
+import { artModules, artQuizQuestions } from './artData';
 import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, Calculator, Sparkles, FlaskConical, Globe, Hourglass, BookA, MessageCircle, BookMarked, Monitor, Search } from 'lucide-react';
+import { BookOpen, Calculator, Sparkles, FlaskConical, Globe, Hourglass, BookA, MessageCircle, BookMarked, Monitor, Search, Palette } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { SEO } from './components/SEO';
 
 export type ViewState = 'subject_select' | 'home' | 'module' | 'quiz';
-export type Subject = 'energy' | 'math' | 'science' | 'social' | 'history' | 'indonesian' | 'english' | 'tajwid' | 'computer';
+export type Subject = 'energy' | 'math' | 'science' | 'social' | 'history' | 'indonesian' | 'english' | 'tajwid' | 'computer' | 'art';
 
 export default function App() {
   const [view, setView] = useState<ViewState>('subject_select');
@@ -79,6 +80,9 @@ export default function App() {
   const [completedComputerModules, setCompletedComputerModules] = usePersistentState<string[]>('completedComputerModules', []);
   const [computerQuizScore, setComputerQuizScore] = usePersistentState<number | null>('computerQuizScore', null);
 
+  const [completedArtModules, setCompletedArtModules] = usePersistentState<string[]>('completedArtModules', []);
+  const [artQuizScore, setArtQuizScore] = usePersistentState<number | null>('artQuizScore', null);
+
   const handleModuleComplete = (id: string) => {
     switch (subject) {
       case 'energy':
@@ -107,6 +111,9 @@ export default function App() {
         break;
       case 'computer':
         if (!completedComputerModules.includes(id)) setCompletedComputerModules([...completedComputerModules, id]);
+        break;
+      case 'art':
+        if (!completedArtModules.includes(id)) setCompletedArtModules([...completedArtModules, id]);
         break;
     }
   };
@@ -140,6 +147,9 @@ export default function App() {
       case 'computer':
         if (computerQuizScore === null || score > computerQuizScore) setComputerQuizScore(score);
         break;
+      case 'art':
+        if (artQuizScore === null || score > artQuizScore) setArtQuizScore(score);
+        break;
     }
   };
 
@@ -153,6 +163,7 @@ export default function App() {
     english: { modules: englishModules, quiz: englishQuizQuestions, completed: completedEnglishModules, score: englishQuizScore, title: 'Hello Friends! 👋', desc: "Let's learn English together! Mari belajar Bahasa Inggris bersama-sama!" },
     tajwid: { modules: tajwidModules, quiz: tajwidQuizQuestions, completed: completedTajwidModules, score: tajwidQuizScore, title: 'Belajar Tajwid! 📖', desc: "Mari kita pelajari hukum-hukum tajwid agar bacaan Al-Qur'an kita semakin baik dan benar." },
     computer: { modules: computerModules, quiz: computerQuizQuestions, completed: completedComputerModules, score: computerQuizScore, title: 'Dunia Digital! 💻', desc: "Mari belajar tentang komputer, internet, dan cara aman menggunakannya." },
+    art: { modules: artModules, quiz: artQuizQuestions, completed: completedArtModules, score: artQuizScore, title: 'Mari Berkreasi! 🎨', desc: "Ayo keluarkan imajinasimu dan pelajari berbagai macam seni yang indah." },
   };
 
   const currentData = subjectData[subject];
@@ -186,6 +197,7 @@ export default function App() {
     { id: 'indonesian', label: 'B. Indo', icon: <BookA size={16} /> },
     { id: 'english', label: 'B. Inggris', icon: <MessageCircle size={16} /> },
     { id: 'computer', label: 'Komputer', icon: <Monitor size={16} /> },
+    { id: 'art', label: 'Seni', icon: <Palette size={16} /> },
   ];
 
   return (
@@ -438,6 +450,19 @@ export default function App() {
                   </div>
                   <h3 className="text-xl font-bold text-slate-800 mb-2">Komputer Dasar</h3>
                   <p className="text-slate-600 text-sm">Belajar teknologi dan internet.</p>
+                </motion.button>
+
+                <motion.button
+                  onClick={() => { setSubject('art'); setView('home'); }}
+                  className="bg-white rounded-3xl p-6 shadow-xl border-4 border-transparent hover:border-orange-400 transition-all text-left group"
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                    <Palette size={32} />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">Seni Budaya</h3>
+                  <p className="text-slate-600 text-sm">Ayo keluarkan imajinasimu!</p>
                 </motion.button>
 
               </div>
