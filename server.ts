@@ -9,7 +9,7 @@ async function startServer() {
 
   app.use(express.json());
 
-  const { callAI } = await import("./src/lib/ai.ts");
+  const { callAI } = await import("./api/_lib/ai.ts");
 
   app.post("/api/ai/chat", async (req, res) => {
     try {
