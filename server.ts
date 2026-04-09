@@ -1,36 +1,16 @@
+import 'dotenv/config';
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   app.use(express.json());
 
-  const API_KEY = process.env.POLLINATIONS_API_KEY || "sk_4lxydEJTbfCreJKsSrCqCAk6rp7C6iwd";
-
-  const callAI = async (system: string, user: string, isJson = false) => {
-    const response = await fetch("https://text.pollinations.ai/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "openai",
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: user }
-        ],
-        response_format: isJson ? { type: "json_object" } : undefined,
-        temperature: 0.7
-      })
-    });
-    if (!response.ok) throw new Error("AI request failed");
-    const data = await response.json();
-    return data.choices[0].message.content;
-  };
+  // Import utility here to avoid top-level process.env issues before dotenv
+  const { callAI } = await import("./src/lib/ai.js");
 
   app.post("/api/ai/chat", async (req, res) => {
     try {
